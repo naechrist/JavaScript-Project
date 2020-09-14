@@ -2,41 +2,47 @@ const form = () => document.querySelector('form');
 const jokeContent = () => document.querySelector('textarea#joke-content');
 const jokeList = () => document.getElementById('joke-list');
 
-const baseUrl = 'http://localhost:3000';
+const jokes = [];
+const baseUrl = 'http://localhost:3000'
 
 document.addEventListener("DOMContentLoaded", callOnLoad);
 
 function callOnLoad() {
-    loadJokes();
+    loadJokes()
     form().addEventListener('submit', createJoke);
 }
 
 function loadJokes() {
-    fetch(baseUrl + '/blogs') //connects to our rails api and gives us index of all data
+    console.log('a');
+
+    fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data
     .then(resp => { //responce from the server when ^ comes back
-        console.log('responce json', resp);
-        return resp.json();
+        if (resp.status !== 200) {
+            throw new Error(resp.statusText);
+        }
+        console.log('b')
+        return resp.json()
     })
-    .then((data => {
-        displayJokes(joke);
-    })
+    .then(data => displayJokes(data))
+
+    console.log('e')
+    
 }
 
 function createJoke(j) {
     j.preventDefault();
 
     const joke = {
-        content: jokeContent().value 
+        content: jokeContent().value
     }
-  
-
+    jokes.push(joke);
+    
     displayJoke(joke);
-
     resetInput();
 }
 
 function displayJokes(joke) {
-    jokeList.forEach(joke => displayJoke(joke));
+    jokes.forEach(joke => displayJoke(joke));
 }
 
 function displayJoke(joke) {
@@ -47,7 +53,7 @@ function displayJoke(joke) {
 
     div.appendChild(p);
 
-    jokeList().appendChild(div);
+    jokeList().appendChild(p);
 }
 
 function resetInput() {
