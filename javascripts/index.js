@@ -1,49 +1,42 @@
-document.addEventListener('DOMContentLoaded', callOnLoad);
-
-const content = () => document.getElementById("content");
 const form = () => document.querySelector('form');
 const jokeContent = () => document.querySelector('textarea#joke-content');
 const jokeList = () => document.getElementById('joke-list');
 
-const jokes = [];
+const baseUrl = 'http://localhost:3000';
+
+document.addEventListener("DOMContentLoaded", callOnLoad);
 
 function callOnLoad() {
-
+    loadJokes();
+    form().addEventListener('submit', createJoke);
 }
 
-// function handleEvents() {
-//     loadJokes();
-// }
+function loadJokes() {
+    fetch(baseUrl + '/blogs') //connects to our rails api and gives us index of all data
+    .then(resp => { //responce from the server when ^ comes back
+        console.log('responce json', resp);
+        return resp.json();
+    })
+    .then((data => {
+        displayJokes(joke);
+    })
+}
 
-// function loadJokes() {
-//     fetch('http://localhost:3000/jokes') //connects to our rails api
-//     .then(function (resp) { //responce from the server
-//         return resp.json();
-//     })
-//     .then(function (joke) { //give us our data
-//         loadJokes.forEach(function (joke) {
-//             displayJoke(joke);
-//         })
-//     }) 
-// }
+function createJoke(j) {
+    j.preventDefault();
 
-// function displayJoke(joke) {
-//     const main = document.querySelector('div#main')
-//     const div = document.createElement('div')
-//     div.innerHTML = `<p>${joke.content}</p>` //add to the div we created 
-//     main.appendChild(div); // add to main
-// }
-
-function createJoke() {
     const joke = {
         content: jokeContent().value 
     }
-
-    jokes.push(joke);
+  
 
     displayJoke(joke);
 
     resetInput();
+}
+
+function displayJokes(joke) {
+    jokeList.forEach(joke => displayJoke(joke));
 }
 
 function displayJoke(joke) {
