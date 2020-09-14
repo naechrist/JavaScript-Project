@@ -13,19 +13,14 @@ function callOnLoad() {
 }
 
 function loadJokes() {
-    console.log('a');
-
     fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data
     .then(resp => { //responce from the server when ^ comes back
         if (resp.status !== 200) {
             throw new Error(resp.statusText);
         }
-        console.log('b')
         return resp.json()
     })
     .then(data => displayJokes(data))
-
-    console.log('e')
     
 }
 
@@ -41,19 +36,19 @@ function createJoke(j) {
     resetInput();
 }
 
-function displayJokes(joke) {
+function displayJokes(jokes) {
     jokes.forEach(joke => displayJoke(joke));
 }
 
 function displayJoke(joke) {
     const div = document.createElement('div');
-    const p = document.createElement('p');
+    const li = document.createElement('li');
 
-    p.innerText = joke.content;
+    li.innerText = joke.content;
 
-    div.appendChild(p);
+    div.appendChild(li);
 
-    jokeList().appendChild(p);
+    jokeList().appendChild(div);
 }
 
 function resetInput() {
