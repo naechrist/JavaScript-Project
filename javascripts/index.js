@@ -27,12 +27,23 @@ function loadJokes() {
 function createJoke(j) {
     j.preventDefault();
 
-    const joke = {
-        content: jokeContent().value
+    const strongParams = {
+        joke: {
+            content: jokeContent().value
+        }
     }
-    jokes.push(joke);
-    
-    displayJoke(joke);
+    fetch(baseUrl + '/jokes', {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(strongParams)
+    })
+    .then(resp => resp.json())
+    .then(joke => {
+        displayJoke(joke);
+    })
     resetInput();
 }
 
