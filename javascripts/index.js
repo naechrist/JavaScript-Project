@@ -23,7 +23,7 @@ let editedJokeId = null;
 document.addEventListener("DOMContentLoaded", callOnLoad);
 
 function callOnLoad() {
-    loadJokes()
+    loadJokes();
     form().addEventListener('submit', Joke.createFromForm);
 }
 
@@ -41,25 +41,6 @@ function loadJokes() {
     })
 }
 
-
-
-
 function resetInput() {
     jokeContent().value = "";
 }
-
-function deleteJoke(d) {
-    this.id; //id of joke
-    this.parentNode; // div for removing from front end
-
-    fetch(baseUrl + '/jokes/' + this.id, {
-        method: "DELETE",
-    })
-    .then(resp => {
-        return resp.json();
-    })
-    .then(data => {
-        this.parentNode.remove();
-    })
-}
-
