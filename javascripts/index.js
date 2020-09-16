@@ -1,6 +1,7 @@
 const form = () => document.querySelector('form'); //these r node getters
 const jokeContent = () => document.querySelector('textarea#joke-content');
 const jokeList = () => document.getElementById('joke-list');
+const submitButton = () => document.getElementById('submit-joke');
 
 const button = document.querySelector('.container button');
 const jokeText = document.querySelector('.container p');
@@ -18,6 +19,7 @@ function getJoke() {
 const jokes = [];
 const baseUrl = 'http://localhost:3000'
 let editing = false;
+let editedJokeId = null;
 
 document.addEventListener("DOMContentLoaded", callOnLoad);
 
@@ -40,24 +42,28 @@ function loadJokes() {
 function createJoke(j) {
     j.preventDefault();
 
-    const strongParams = {
-        joke: {
-            content: jokeContent().value
+    if(editing) {
+        updateJoke();
+    } else {
+        const strongParams = {
+            joke: {
+                content: jokeContent().value
+            }
         }
+        fetch(baseUrl + '/jokes', {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(strongParams)
+        })
+        .then(resp => resp.json())
+        .then(joke => {
+            displayJoke(joke);
+        })
+        resetInput();
     }
-    fetch(baseUrl + '/jokes', {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(strongParams)
-    })
-    .then(resp => resp.json())
-    .then(joke => {
-        displayJoke(joke);
-    })
-    resetInput();
 }
 
 function displayJokes(jokes) {
@@ -78,7 +84,7 @@ function displayJoke(joke) {
     const editButton = document.createElement('button');
     editButton.classList.add('btn');
     editButton.innerText = 'edit';
-    editButton.id = joke.id;
+    editButton.id = "edit-" + joke.id;
 
     editButton.addEventListener('click', editJoke);
 
@@ -111,10 +117,37 @@ function deleteJoke(d) {
 }
 
 function editJoke(e) {
+    let editing = true;
     jokeContent().value = this.parentNode.querySelector('li').innerText; //displays joke back in th content section(form) to edit
+    submitButton().value = "Edit Joke";
 
+    editedJokeId = this.id; // temperarly storing in so it can b used in updateJoke()
 }
 
 function updateJoke(){
-    
+    let content = jokeContent().value;
+
+    const strongParams = {
+        joke: {
+            content: content
+        }
+    }
+    fetch(baseUrl + '/jokes' + editedJokeId, {
+        method: "PATCH",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(strongParams)
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        const div = document.getElementById(editedJokeId).parentNode 
+        div.querySelector('li').innerText = data.content;
+
+        resetInput();
+        editing = false;
+        editedJokeId = null;
+        submitButton().value = "Create Joke";
+    })
 }
