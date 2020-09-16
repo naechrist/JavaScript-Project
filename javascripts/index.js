@@ -34,7 +34,6 @@ function loadJokes() {
         return resp.json()
     })
     .then(data => displayJokes(data))
-    
 }
 
 function createJoke(j) {
@@ -67,14 +66,25 @@ function displayJokes(jokes) {
 function displayJoke(joke) {
     const div = document.createElement('div');
     const li = document.createElement('li');
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('btn'); 
+    deleteButton.innerText = 'delete';
+    deleteButton.id = blog.id;
+
+    deleteButton.addEventListener('click', deleteBlog) //delete /blogs/1
 
     li.innerText = joke.content;
 
     div.appendChild(li);
+    div.appendChild(deleteButton);
 
     jokeList().appendChild(div);
 }
 
 function resetInput() {
     jokeContent().value = "";
+}
+
+function deleteBlog(d) {
+    this.id;
 }
