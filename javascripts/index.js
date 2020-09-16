@@ -1,4 +1,4 @@
-const form = () => document.querySelector('form');
+const form = () => document.querySelector('form'); //these r node getters
 const jokeContent = () => document.querySelector('textarea#joke-content');
 const jokeList = () => document.getElementById('joke-list');
 
@@ -17,6 +17,7 @@ function getJoke() {
 
 const jokes = [];
 const baseUrl = 'http://localhost:3000'
+let editing = false;
 
 document.addEventListener("DOMContentLoaded", callOnLoad);
 
@@ -109,6 +110,11 @@ function deleteJoke(d) {
     })
 }
 
-function editJoke() {
+function editJoke(e) {
+    jokeContent().value = this.parentNode.querySelector('li').innerText; //displays joke back in th content section(form) to edit
 
+}
+
+function updateJoke(){
+    
 }
