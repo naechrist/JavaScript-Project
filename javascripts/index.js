@@ -6,17 +6,13 @@ const button = document.querySelector('.container button');
 const jokeText = document.querySelector('.container p');
 
 button.addEventListener('click', getJoke);
-
-async function getJoke() {
-    const jokeData = await fetch('https://icanhazdadjoke.com/', {
+function getJoke() {
+    fetch('https://icanhazdadjoke.com/', {
         headers: {
             'Accept': 'application/json'
         }
-    });
-    const jokeObj = await jokeData.json(); //make data readable
-    jokeText.innerText = jokeObj.joke;
-    
-    
+    }).then(data => data.json()) //gets the object 
+    .then(obj => jokeText.innerText = obj.joke);
 }
 
 const jokes = [];
