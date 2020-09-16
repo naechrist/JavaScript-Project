@@ -72,7 +72,7 @@ class Joke {
             })
             resetInput();
         }
-    }   
+    }  
     
 
     static editJoke(e) {
@@ -119,9 +119,7 @@ class Joke {
         fetch(baseUrl + '/jokes/' + this.id, {
             method: "DELETE"
         })
-        .then(resp =? {
-            return resp.json();
-        })
+        .then(resp => resp.json())
         .then(data => {
             Joke.all = Joke.all.filter(joke => joke.id !== data.id);
             Joke.displayJokes();

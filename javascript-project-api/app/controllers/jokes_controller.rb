@@ -27,7 +27,7 @@ class JokesController < ApplicationController
   # PATCH/PUT /jokes/1
   def update
     if @joke.update(joke_params)
-      render json: @joke
+      render json: @joke, status: :created, location: @joke
     else
       render json: @joke.errors, status: :unprocessable_entity
     end

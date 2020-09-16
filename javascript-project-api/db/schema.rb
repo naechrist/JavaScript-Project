@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_14_170259) do
+ActiveRecord::Schema.define(version: 2020_09_16_185420) do
+
+  create_table "joke_tags", force: :cascade do |t|
+    t.integer "joke_id", null: false
+    t.integer "tag_id", null: false
+    t.index ["joke_id"], name: "index_joke_tags_on_joke_id"
+    t.index ["tag_id"], name: "index_joke_tags_on_tag_id"
+  end
 
   create_table "jokes", force: :cascade do |t|
     t.text "content"
@@ -18,4 +25,12 @@ ActiveRecord::Schema.define(version: 2020_09_14_170259) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "joke_tags", "jokes"
+  add_foreign_key "joke_tags", "tags"
 end
