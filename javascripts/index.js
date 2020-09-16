@@ -69,9 +69,9 @@ function displayJoke(joke) {
     const deleteButton = document.createElement('button');
     deleteButton.classList.add('btn'); 
     deleteButton.innerText = 'delete';
-    deleteButton.id = blog.id;
+    deleteButton.id = joke.id;
 
-    deleteButton.addEventListener('click', deleteBlog) //delete /blogs/1
+    deleteButton.addEventListener('click', deleteJoke) //delete /blogs/1
 
     li.innerText = joke.content;
 
@@ -85,6 +85,17 @@ function resetInput() {
     jokeContent().value = "";
 }
 
-function deleteBlog(d) {
-    this.id;
+function deleteJoke(d) {
+    this.id; //id of joke
+    this.parentNode; // div for removing from front end
+
+    fetch(baseUrl + '/jokes/' + this.id, {
+        method: "DELETE",
+    })
+    .then(resp => {
+        return resp.json();
+    })
+    .then(data => {
+        this.parentNode.remove();
+    })
 }

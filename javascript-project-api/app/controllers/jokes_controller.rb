@@ -36,6 +36,8 @@ class JokesController < ApplicationController
   # DELETE /jokes/1
   def destroy
     @joke.destroy
+
+    render json: @joke 
   end
 
   private
