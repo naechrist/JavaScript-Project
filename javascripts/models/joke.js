@@ -71,6 +71,34 @@ class Joke {
     }
     }
 
+    static updateJoke(j){
+        let content = jokeContent().value;
+    
+        const strongParams = {
+            joke: {
+                content: content
+            }
+        }
+        fetch(baseUrl + '/jokes/' + Joke.editedJokeId, {
+            method: "PATCH",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(strongParams)
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            let editedJoke = Joke.all.find(joke => joke.id == data.id);
+            editedJoke.content = data.content;
+            Joke.displayJokes();
+
+            resetInput();
+            editing = false;
+            Joke.editedJokeId = null;
+            submitButton().value = "Create Joke";
+        })
+    }
     static displayJokes() {
         jokeList().innerHTML = '';
         Joke.all.forEach(joke => joke.display())

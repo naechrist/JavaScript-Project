@@ -16,7 +16,6 @@ function getJoke() {
     .then(obj => jokeText.innerText = obj.joke);
 }
 
-const jokes = [];
 const baseUrl = 'http://localhost:3000'
 let editing = false;
 let editedJokeId = null;
@@ -72,30 +71,30 @@ function editJoke(e) {
     editedJokeId = this.id; // temperarly storing in so it can b used in updateJoke()
 }
 
-function updateJoke(){
-    let content = jokeContent().value;
+// function updateJoke(){
+//     let content = jokeContent().value;
 
-    const strongParams = {
-        joke: {
-            content: content
-        }
-    }
-    fetch(baseUrl + '/jokes' + editedJokeId, {
-        method: "PATCH",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(strongParams)
-    })
-    .then(resp => resp.json())
-    .then(data => {
-        const div = document.getElementById(editedJokeId).parentNode 
-        div.querySelector('li').innerText = data.content;
+//     const strongParams = {
+//         joke: {
+//             content: content
+//         }
+//     }
+//     fetch(baseUrl + '/jokes' + editedJokeId, {
+//         method: "PATCH",
+//         headers: {
+//             'Accept': 'application/json',
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(strongParams)
+//     })
+//     .then(resp => resp.json())
+//     .then(data => {
+//         const div = document.getElementById(editedJokeId).parentNode 
+//         div.querySelector('li').innerText = data.content;
 
-        resetInput();
-        editing = false;
-        editedJokeId = null;
-        submitButton().value = "Create Joke";
-    })
-}
+//         resetInput();
+//         editing = false;
+//         editedJokeId = null;
+//         submitButton().value = "Create Joke";
+//     })
+// }
