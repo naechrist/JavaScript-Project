@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", callOnLoad);
 
 function callOnLoad() {
     loadJokes()
-    form().addEventListener('submit', createJoke);
+    form().addEventListener('submit', Joke.createFromForm);
 }
 
 function loadJokes() {
@@ -42,63 +42,8 @@ function loadJokes() {
     })
 }
 
-function createJoke(j) {
-    j.preventDefault();
 
-    if(editing) {
-        updateJoke();
-    } else {
-        const strongParams = {
-            joke: {
-                content: jokeContent().value
-            }
-        }
-        fetch(baseUrl + '/jokes', {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(strongParams)
-        })
-        .then(resp => resp.json())
-        .then(joke => {
-            displayJoke(joke);
-        })
-        resetInput();
-    }
-}
 
-// function displayJokes(jokes) {
-//     jokes.forEach(joke => displayJoke(joke));
-// }
-
-// function displayJoke(joke) {
-//     const div = document.createElement('div');
-//     const li = document.createElement('li');
-
-//     const deleteButton = document.createElement('button');
-//     deleteButton.classList.add('btn'); 
-//     deleteButton.innerText = 'delete';
-//     deleteButton.id = joke.id;
-
-//     deleteButton.addEventListener('click', deleteJoke) //delete /blogs/1
-
-//     const editButton = document.createElement('button');
-//     editButton.classList.add('btn');
-//     editButton.innerText = 'edit';
-//     editButton.id = "edit-" + joke.id;
-
-//     editButton.addEventListener('click', editJoke);
-
-//     li.innerText = joke.content;
-
-//     div.appendChild(li);
-//     div.appendChild(editButton); //actually adds button to page
-//     div.appendChild(deleteButton);
-
-//     jokeList().appendChild(div);
-// }
 
 function resetInput() {
     jokeContent().value = "";

@@ -43,8 +43,37 @@ class Joke {
         Joke.all.push(joke);
     }
 
+    static createFromForm(j) {
+        j.preventDefault();
+
+    if(editing) {
+        Joke.updateJoke();
+    } else {
+        const strongParams = {
+            joke: {
+                content: jokeContent().value
+            }
+        }
+        fetch(baseUrl + '/jokes.json', {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(strongParams)
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            let joke = Joke.create(data.id, data.content);
+            joke.display();
+        })
+        resetInput();
+    }
+    }
+
     static displayJokes() {
         jokeList().innerHTML = '';
         Joke.all.forEach(joke => joke.display())
     }
+
 }
