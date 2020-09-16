@@ -63,38 +63,3 @@ function deleteJoke(d) {
     })
 }
 
-function editJoke(e) {
-    let editing = true;
-    jokeContent().value = this.parentNode.querySelector('li').innerText; //displays joke back in th content section(form) to edit
-    submitButton().value = "Edit Joke";
-
-    editedJokeId = this.id; // temperarly storing in so it can b used in updateJoke()
-}
-
-// function updateJoke(){
-//     let content = jokeContent().value;
-
-//     const strongParams = {
-//         joke: {
-//             content: content
-//         }
-//     }
-//     fetch(baseUrl + '/jokes' + editedJokeId, {
-//         method: "PATCH",
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(strongParams)
-//     })
-//     .then(resp => resp.json())
-//     .then(data => {
-//         const div = document.getElementById(editedJokeId).parentNode 
-//         div.querySelector('li').innerText = data.content;
-
-//         resetInput();
-//         editing = false;
-//         editedJokeId = null;
-//         submitButton().value = "Create Joke";
-//     })
-// }

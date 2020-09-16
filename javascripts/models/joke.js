@@ -1,5 +1,6 @@
 class Joke {
     static all = [];
+    static editedJokeId = null;
     constructor(id, content) {
         this.id = id;
         this.content = content; 
@@ -69,6 +70,14 @@ class Joke {
         })
         resetInput();
     }
+    }
+
+    static editJoke(e) {
+        editing = true;
+        jokeContent().value = this.parentNode.querySelector('li').innerText; //displays joke back in th content section(form) to edit
+        submitButton().value = "Edit Joke";
+    
+        Joke.editedJokeId = this.id; // temperarly storing in so it can b used in updateJoke()
     }
 
     static updateJoke(j){
