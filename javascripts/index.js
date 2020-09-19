@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", callOnLoad);
 
 function callOnLoad() {
     loadJokes();
-    // dropdownMenu();
     form().addEventListener('submit', Joke.createFromForm);
     dropdownMenu();
 }
@@ -49,8 +48,8 @@ function resetInput() {
 }
 
 function dropdownMenu() {
-    const tagList = document.getElementById('tag-list');
-
+    let tagList = document.getElementById('tag-list');
+    
     fetch(baseUrl + '/tags' )
     .then(resp => {
         if (resp.status !== 200) {
@@ -58,16 +57,12 @@ function dropdownMenu() {
         }
         return resp.json()
     })
-    .then(data => {
-        
-         
-            data.forEach(tag => { tagList.innerHTML += ` 
-            <label>
-                <input type="checkbox" id="tag.id"> </input>
-                <span>${tag.name}</span>
-            </label>
-            `
+    .then(data => { 
+            data.forEach(tag => {  tagList.innerHTML += ` 
+             <label> 
+                <input type="checkbox" name="${tag.name}" id="${tag.id}" value="${tag.id}"> </input>---------------
+                 <span id="${tag.id}">${tag.name}</span> </label>`
             });
         });
     }
-
+           
