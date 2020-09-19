@@ -6,7 +6,7 @@ class JokesController < ApplicationController
     @jokes = Joke.all
     @tags = Tag.all
 
-    render json: @jokes
+    render json: @jokes, include: :tags
   end
 
   # GET /jokes/1
