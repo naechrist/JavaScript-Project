@@ -2,9 +2,10 @@ class Joke {
     static all = [];
     static editedJokeId = null;
 
-    constructor(id, content) {
+    constructor(id, content, tags) {
         this.id = id;
         this.content = content; 
+        this.tags = tags
     }
 
     display() {
@@ -18,21 +19,20 @@ class Joke {
         
         deleteButton.addEventListener('click', Joke.deleteJoke) //delete /blogs/1
         
-        const editButton = document.createElement('button');
-        editButton.classList.add('btn');
-        editButton.innerText = 'edit';
-        editButton.id = "edit-" + this.id;
+        // const editButton = document.createElement('button');
+        // editButton.classList.add('btn');
+        // editButton.innerText = 'edit';
+        // editButton.id = "edit-" + this.id;
         
-        editButton.addEventListener('click', Joke.editJoke);
+        // editButton.addEventListener('click', Joke.editJoke);
         
         li.innerText = this.content;
-        
+ 
         div.appendChild(li);
-        div.appendChild(editButton); //actually adds button to page
+        // div.appendChild(editButton); //actually adds button to page
         div.appendChild(deleteButton);
         
         jokeList().appendChild(div);
-    
     }
 
     static createJokes(jokesData) {
@@ -45,16 +45,27 @@ class Joke {
         Joke.all.push(joke);
         return joke;
     }
-
+    
     static createFromForm(j) {
         j.preventDefault();
-
-        if(editing) {
-            Joke.updateJoke();
-        } else {
+        
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const tag_ids = [];
+        const tag_names = []
+        checkboxes.forEach(box => {
+            
+        if (box.checked) {
+            tag_ids.push(box.id);
+            tag_names.push(box.name);
+        }});
+    
+        // if(editing) {
+        //     Joke.updateJoke();
+        // } else {
             const strongParams = {
                 joke: {
-                    content: jokeContent().value
+                    content: jokeContent().value,
+                    tag_ids: tag_ids
                 }
             }
             fetch(baseUrl + '/jokes.json', {
@@ -67,13 +78,14 @@ class Joke {
             })
             .then(resp => resp.json())
             .then(data => {
-                let joke = Joke.create(data.id, data.content);
+                let joke = Joke.create(data.id, data.content, data.tags);
+
+                jokeList().append(tag_names);
                 joke.display();
             })
             resetInput();
-        }
+        // }
     }  
-    
 
     static editJoke(e) {
         editing = true;
@@ -130,5 +142,4 @@ class Joke {
         jokeList().innerHTML = '';
         Joke.all.forEach(joke => joke.display())
     }
-
 }

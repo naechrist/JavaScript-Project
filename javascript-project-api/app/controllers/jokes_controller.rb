@@ -4,6 +4,7 @@ class JokesController < ApplicationController
   # GET /jokes
   def index
     @jokes = Joke.all
+    @tags = Tag.all
 
     render json: @jokes
   end
@@ -48,6 +49,6 @@ class JokesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def joke_params
-      params.require(:joke).permit(:content)
+      params.require(:joke).permit( :content, :tag_ids => [] )
     end
 end

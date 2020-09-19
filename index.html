@@ -12,14 +12,14 @@
       <!-- Compiled and minified CSS -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     
-      
+
     
       <title>Javascript Events</title>
       <link rel="stylesheet" href="index.css">
     </head>
 
     <body>
-        <h1>Joke Book</h1>
+        <h1 class="center">Joke Book</h1>
         <section>
           <div class="container">
             <div class="joke"><p></p></div>
@@ -37,22 +37,21 @@
                 <div class="input-field">
                   <textarea type="text" name="joke-content" id="joke-content" class="materialize-textarea"></textarea>
                   <label for="joke-content">Content</label>
+                
+                  <div id="tag-list" class="center">Add a category</div>
+                  
+                  
                 </div>
+
                 <input type="submit" value="Create Joke" class="btn" id="submit-joke">
               </form>
+
+
       
               <h4>Your Jokes</h4>
-              <p>Rate 1-5 with 5 being the funniest!</p>
-              <p>
-                <div class="tags-input" data-name="tags-input">
-                  <span class="tag">1<span class="close"></span></span>
-                  <span class="tag">2<span class="close"></span></span>
-                  <span class="tag">3<span class="close"></span></span>
-                  <span class="tag">4<span class="close"></span></span>
-                  <span class="tag">5<span class="close"></span></span>
-                </div>
-              </p>
-              <script src="javascripts/models/tag.js"></script>
+             
+              
+
               <hr>
       
               <div id="joke-list"></div>
@@ -64,6 +63,7 @@
   
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  
     <script src="javascripts/models/joke.js"></script>
     <script src="javascripts/index.js"></script>
     
