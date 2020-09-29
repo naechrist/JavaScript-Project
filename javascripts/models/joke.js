@@ -8,7 +8,7 @@ class Joke {
         this.tags = tags
     }
 
-    display() {
+    display() {    // instance method
         const div = document.createElement('div');
         const li = document.createElement('li');
         
@@ -17,14 +17,7 @@ class Joke {
         deleteButton.innerText = 'delete';
         deleteButton.id = this.id;
         
-        deleteButton.addEventListener('click', Joke.deleteJoke) //delete /blogs/1
-        
-        // const editButton = document.createElement('button');
-        // editButton.classList.add('btn');
-        // editButton.innerText = 'edit';
-        // editButton.id = "edit-" + this.id;
-        
-        // editButton.addEventListener('click', Joke.editJoke);
+        deleteButton.addEventListener('click', Joke.deleteJoke) //delete 
         
         li.innerText = this.content;
  
@@ -33,9 +26,11 @@ class Joke {
         div.appendChild(deleteButton);
         
         jokeList().appendChild(div);
+        
+        Joke.all.sort(function(arg1, arg2) { return arg1.content.length - arg2.content.length });
     }
 
-    static createJokes(jokesData) {
+    static createJokes(jokesData) {     //class method
         jokesData.forEach(data => Joke.create(data.id, data.content));
     }
 
@@ -47,7 +42,7 @@ class Joke {
     }
     
     static createFromForm(j) {
-        j.preventDefault();
+         j.preventDefault();
         
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         const tag_ids = [];
@@ -79,50 +74,14 @@ class Joke {
             .then(resp => resp.json())
             .then(data => {
                 let joke = Joke.create(data.id, data.content, data.tags);
-
+                
                 jokeList().append(tag_names);
                 joke.display();
+                
             })
             resetInput();
         // }
     }  
-
-    static editJoke(e) {
-        editing = true;
-        jokeContent().value = this.parentNode.querySelector('li').innerText; //displays joke back in th content section(form) to edit
-        submitButton().value = "Edit Joke";
-    
-        Joke.editedJokeId = this.id; // temperarly storing in so it can b used in updateJoke()
-    }
-
-    static updateJoke(j){
-        let content = jokeContent().value;
-    
-        const strongParams = {
-            joke: {
-                content: content
-            }
-        }
-        fetch(baseUrl + '/jokes/' + Joke.editedJokeId, {
-            method: "PATCH",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(strongParams)
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            let editedJoke = Joke.all.find(joke => joke.id == data.id);
-            editedJoke.content = data.content;
-            Joke.displayJokes();
-
-            resetInput();
-            editing = false;
-            Joke.editedJokeId = null;
-            submitButton().value = "Create Joke";
-        })
-    }
 
     static deleteJoke(d) {
         this.id //id of blog
@@ -142,4 +101,42 @@ class Joke {
         jokeList().innerHTML = '';
         Joke.all.forEach(joke => joke.display())
     }
+
+    // static editJoke(e) {
+    //     editing = true;
+    //     jokeContent().value = this.parentNode.querySelector('li').innerText; //displays joke back in th content section(form) to edit
+    //     submitButton().value = "Edit Joke";
+    
+    //     Joke.editedJokeId = this.id; // temperarly storing in so it can b used in updateJoke()
+    // }
+
+    // static updateJoke(j){
+    //     let content = jokeContent().value;
+    
+    //     const strongParams = {
+    //         joke: {
+    //             content: content
+    //         }
+    //     }
+    //     fetch(baseUrl + '/jokes/' + Joke.editedJokeId, {
+    //         method: "PATCH",
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(strongParams)
+    //     })
+    //     .then(resp => resp.json())
+    //     .then(data => {
+    //         let editedJoke = Joke.all.find(joke => joke.id == data.id);
+    //         editedJoke.content = data.content;
+    //         Joke.displayJokes();
+
+    //         resetInput();
+    //         editing = false;
+    //         Joke.editedJokeId = null;
+    //         submitButton().value = "Create Joke";
+    //     })
+    // }
+
 }

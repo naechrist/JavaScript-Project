@@ -13,7 +13,7 @@ function getJoke() {
         headers: {
             'Accept': 'application/json'
         }
-    }).then(data => data.json()) //gets the object 
+    }).then(responce => responce.json()) //gets the object 
     .then(obj => jokeText.innerText = obj.joke);
 }
 
@@ -30,7 +30,8 @@ function callOnLoad() {
 }
 
 function loadJokes() {
-    fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data
+    
+    fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data in an object 
     .then(resp => { //responce from the server when ^ comes back
         if (resp.status !== 200) {
             throw new Error(resp.statusText);
@@ -41,6 +42,7 @@ function loadJokes() {
         Joke.createJokes(data)
         Joke.displayJokes();
     })
+
 }
 
 function resetInput() {
