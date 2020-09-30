@@ -32,7 +32,7 @@ class Joke {
     }
 
     static createJokes(jokesData) {     //class method
-        jokesData.forEach(data => Joke.create(data.id, data.content));
+        jokesData.forEach(data => Joke.create(data.id, data.content, data.tags));
     }
 
     static create(id, content) {

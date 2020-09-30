@@ -13,7 +13,7 @@ function getJoke() {
             'Accept': 'application/json'
         }
     }).then(responce => responce.json()) //gets the object, runs bc fetch was successful
-    .then(obj => jokeText.innerText = obj.joke); //adding to the dom
+    .then(obj => jokeText.innerText = obj.joke); //adding to the html on the dom
 }
 
 const baseUrl = 'http://localhost:3000'
@@ -30,12 +30,12 @@ function callOnLoad() {
 }
 
 function loadJokes() {
-    fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data in an object 
-    .then(resp => { //responce from the server when ^ comes back
+    fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data in an object / makes a GET request by default
+    .then(resp => { //responce from the server when ^ comes back / whats going to happen after the fetch request is done
         if (resp.status !== 200) {
             throw new Error(resp.statusText);
         }
-        return resp.json()
+        return resp.json() //returns the responce as json
     })
     .then(data => {
         Joke.createJokes(data)
@@ -62,7 +62,7 @@ function dropdownMenu() {
              <label> 
                 <input type="checkbox" name="${tag.name}" id="${tag.id}" value="${tag.id}"> </input>---------------
                  <span id="${tag.id}">${tag.name}</span> </label>`
-            });
+            }); // use += to adding to instead of changing it completly 
         });
     }
            
