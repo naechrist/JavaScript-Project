@@ -9,19 +9,19 @@ const jokeText = document.querySelector('.container p');
 
 button.addEventListener('click', getJoke);
 function getJoke() {
-    fetch('https://icanhazdadjoke.com/', {
+    fetch('https://icanhazdadjoke.com/', { //returns a promise to chain .then on
         headers: {
             'Accept': 'application/json'
         }
-    }).then(responce => responce.json()) //gets the object 
-    .then(obj => jokeText.innerText = obj.joke);
+    }).then(responce => responce.json()) //gets the object, runs bc fetch was successful
+    .then(obj => jokeText.innerText = obj.joke); //adding to the dom
 }
 
 const baseUrl = 'http://localhost:3000'
 let editing = false;
 let editedJokeId = null;
 
-document.addEventListener("DOMContentLoaded", callOnLoad);
+document.addEventListener("DOMContentLoaded", callOnLoad); //on page load 
 
 function callOnLoad() {
     loadJokes();
