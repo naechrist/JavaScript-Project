@@ -1,14 +1,13 @@
-const form = () => document.querySelector('form'); //these r node getters
-const jokeContent = () => document.querySelector('textarea#joke-content');
-const tagContent = () => document.getElementById('tag-list');
+const jokeContent = () => document.querySelector('textarea#joke-content'); //these r node getters
+// const tagContent = () => document.getElementById('tag-list');
 const jokeList = () => document.getElementById('joke-list');
-const submitButton = () => document.getElementById('submit-joke');
-
+//const submitButton = () => document.getElementById('submit-joke');
 const button = document.querySelector('.container button');
-const jokeText = document.querySelector('.container p');
 
-button.addEventListener('click', getJoke);
+button.addEventListener('click', getJoke); //calling the function def
+
 function getJoke() {
+    const jokeText = document.querySelector('.container p');
     fetch('https://icanhazdadjoke.com/', { //returns a promise to chain .then on
         headers: {
             'Accept': 'application/json'
@@ -18,19 +17,19 @@ function getJoke() {
 }
 
 const baseUrl = 'http://localhost:3000'
-let editing = false;
-let editedJokeId = null;
+// let editing = false;
+// let editedJokeId = null;
 
 document.addEventListener("DOMContentLoaded", callOnLoad); //on page load 
 
 function callOnLoad() {
+    const form = () => document.querySelector('form'); 
     loadJokes();
     form().addEventListener('submit', Joke.createFromForm);
     dropdownMenu();
 }
 
 function loadJokes() {
-    
     fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data in an object 
     .then(resp => { //responce from the server when ^ comes back
         if (resp.status !== 200) {
@@ -42,7 +41,6 @@ function loadJokes() {
         Joke.createJokes(data)
         Joke.displayJokes();
     })
-
 }
 
 function resetInput() {

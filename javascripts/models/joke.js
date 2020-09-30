@@ -1,7 +1,7 @@
 // model class represents the data
 class Joke {
     static all = [];
-    static editedJokeId = null;
+    // static editedJokeId = null;
 
     constructor(id, content, tags) {
         this.id = id;
