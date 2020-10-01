@@ -10,7 +10,7 @@ function getJoke() {
         headers: {
             'Accept': 'application/json'
        }
-    }).then(responce => responce.json()) //gets the object, runs bc fetch was successful
+    }).then(responce => responce.json()) //gets the object, runs bc fetch was successful, gets json out of the responce
     .then(obj => jokeText.innerText = obj.joke); //adding to the html on the dom
 }
 
@@ -28,12 +28,12 @@ function callOnLoad() {
 function loadJokes() {
     fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data in an object / makes a GET request by default
     .then(resp => { //responce from the server when ^ comes back / whats going to happen after the fetch request is done
-        if (resp.status !== 200) {
+        if (resp.status !== 200) { //comes back w a responce - 200 is a-ok
             throw new Error(resp.statusText);
         }
-        return resp.json() //returns the responce as json
+        return resp.json() //returns the responce as json as a promise object
     })
-    .then(data => {
+    .then(data => { //the object we got back 
         Joke.createJokes(data)
         Joke.displayJokes();
     })
