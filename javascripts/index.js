@@ -1,9 +1,6 @@
 const jokeContent = () => document.querySelector('textarea#joke-content'); //these r node getters in the global scope
-// const tagContent = () => document.getElementById('tag-list');
 const jokeList = () => document.getElementById('joke-list');
-//const submitButton = () => document.getElementById('submit-joke');
 const button = document.querySelector('.container button');
-
 
 button.addEventListener('click', getJoke); //calling the function def
 
@@ -18,8 +15,6 @@ function getJoke() {
 }
 
 const baseUrl = 'http://localhost:3000'
-// let editing = false;
-// let editedJokeId = null;
 
 document.addEventListener("DOMContentLoaded", callOnLoad); //on page load 
 
@@ -28,7 +23,6 @@ function callOnLoad() {
     loadJokes();
     form().addEventListener('submit', Joke.createFromForm);
     dropdownMenu();
-   
 }
 
 function loadJokes() {
@@ -43,7 +37,6 @@ function loadJokes() {
         Joke.createJokes(data)
         Joke.displayJokes();
     })
-   
 }
 
 function resetInput() {
