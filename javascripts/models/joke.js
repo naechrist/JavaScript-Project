@@ -8,7 +8,7 @@ class Joke {
         this.tags = tags;
     }
 
-    display() {    // instance method
+     display() {    // instance method
         const div = document.createElement('div');
         const li = document.createElement('li');
         const h6 = document.createElement('h6');
@@ -56,13 +56,13 @@ class Joke {
             }
         }
         fetch(baseUrl + '/jokes.json', {
-            method: "POST",
+            method: "POST", //send to the backend 
             headers: { //how we want to receive the responce
                 "Accept": "application/json", //accept back json
                 "Content-Type": "application/json" //sending json
-            },
-            body: JSON.stringify(strongParams) //how we r going to send of the json -> into string
-        })
+            }, 
+            body: JSON.stringify(strongParams) //how we r going to send of the json obj -> into string - do this everytime u POST
+        }) //JSON allows us to communicate to and from the rails backened 
         .then(resp => resp.json()) //send back responce as an object and getting json out of it
         .then(data => { 
             let joke = Joke.create(data.id, data.content, data.tags);
@@ -90,4 +90,5 @@ class Joke {
         Joke.all.sort(function(a, b){return a.content.length-b.content.length});
         Joke.all.forEach(joke => joke.display())
     }
+   
 }

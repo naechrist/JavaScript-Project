@@ -1,17 +1,18 @@
 const jokeContent = () => document.querySelector('textarea#joke-content'); //these r node getters in the global scope
 const jokeList = () => document.getElementById('joke-list'); //from index.html
 const button = document.querySelector('.container button');
-
+const searchedJokes = []
+const searchBar = document.getElementById('search')
 button.addEventListener('click', getJoke); //calling the function defination
 
 function getJoke() {
     const jokeText = document.querySelector('.container p'); // in the local scope
-    fetch('https://icanhazdadjoke.com/', { //returns a promise to chain .then on
+    fetch('https://icanhazdadjoke.com/', { //a promise is returned when fetch is initiaized and resolves once the data is returned back - to chain .then on
         headers: {
             'Accept': 'application/json' //accepting as json
        }
-    }).then(responce => responce.json()) //gets the object, runs bc fetch was successful, gets json out of the responce
-    .then(obj => jokeText.innerText = obj.joke); //adding to the html on the dom
+    }).then(responce => responce.json()) //gets the object, runs bc fetch was successful, pulls json data out of the servers responce
+    .then(obj => jokeText.innerText = obj.joke); //adding to the html into the jokeText node on the dom
 }
 
 const baseUrl = 'http://localhost:3000'
@@ -22,13 +23,14 @@ function callOnLoad() {
     const form = () => document.querySelector('form'); //arrow function 
     loadJokes();
     form().addEventListener('submit', Joke.createFromForm);
+    search_joke();
     dropdownMenu();
 }
 
 function loadJokes() {
     fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data in an object / makes a GET request by default
     .then(resp => { //responce from the server when ^ comes back / whats going to happen after the fetch request is done
-        if (resp.status !== 200) { //comes back w a responce - 200 is a-ok
+        if (resp.status !== 200) { //comes back w a responce - 200 is a-ok - this is also a promise that will b resolved with the next .then
             throw new Error(resp.statusText);
         }
         return resp.json() //returns the responce as json as a promise object
@@ -60,4 +62,30 @@ function dropdownMenu() {
                 <span id="${tag.id}">${tag.name} </span> </label>`
         }); // use += for -adding to- instead of -changing- it completly 
     });
+}
+function search_joke() { 
+    searchBar.addEventListener("click", e => {
+        const searchString = (e.target.previousElementSibling.value);
+        console.log(searchString);
+        
+        const filteredJokes = Joke.all.filter(joke => {
+            return (joke.content.includes(searchString))
+        }) 
+        var result = {  };
+        for (var i = 0; i < filteredJokes.length; i++) {
+            var item = filteredJokes[i];
+            for (var key in item) {
+                if (!(key in result))
+                result[key] = [];
+                result[key].push(item[key]);
+            }
+        }
+    const div = document.createElement('div');
+    const h6 = document.createElement('h6');
+    h6.innerText = result.content.join("\n\n");
+    div.appendChild(h6)
+    const node = document.getElementById('joke-list');
+    node.textContent = '';
+    node.appendChild(div);
+    })
 }
