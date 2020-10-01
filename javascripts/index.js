@@ -1,14 +1,14 @@
 const jokeContent = () => document.querySelector('textarea#joke-content'); //these r node getters in the global scope
-const jokeList = () => document.getElementById('joke-list');
+const jokeList = () => document.getElementById('joke-list'); //from index.html
 const button = document.querySelector('.container button');
 
-button.addEventListener('click', getJoke); //calling the function def
+button.addEventListener('click', getJoke); //calling the function defination
 
 function getJoke() {
     const jokeText = document.querySelector('.container p'); // in the local scope
     fetch('https://icanhazdadjoke.com/', { //returns a promise to chain .then on
         headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json' //accepting as json
        }
     }).then(responce => responce.json()) //gets the object, runs bc fetch was successful, gets json out of the responce
     .then(obj => jokeText.innerText = obj.joke); //adding to the html on the dom
@@ -54,11 +54,10 @@ function dropdownMenu() {
         return resp.json()
     })
     .then(data => { 
-            data.forEach(tag => {  tagList.innerHTML += ` 
-             <label> 
-                <input type="checkbox" name="${tag.name}" id="${tag.id}" value="${tag.id}"> </input>---------------
-                 <span id="${tag.id}">${tag.name}</span> </label>`
-            }); // use += for -adding to- instead of -changing- it completly 
-        });
-    }
-           
+        data.forEach(tag => { tagList.innerHTML += ` 
+            <label>
+            <input type="checkbox" name="${tag.name}" id="${tag.id}" value="${tag.id}"> </input>---------------
+                <span id="${tag.id}">${tag.name} </span> </label>`
+        }); // use += for -adding to- instead of -changing- it completly 
+    });
+}

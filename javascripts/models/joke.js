@@ -2,7 +2,7 @@
 class Joke {
     static all = [];
 
-    constructor(id, content, tags) {
+    constructor(id, content, tags) { //the class attributes 
         this.id = id;
         this.content = content; 
         this.tags = tags;
@@ -30,13 +30,13 @@ class Joke {
     }
 
     static createJokes(jokesData) {     //class method
-        jokesData.forEach(data => Joke.create(data.id, data.content, data.tags));
+        jokesData.forEach(data => Joke.create(data.id, data.content, data.tags)); 
     }
 
     static create(id, content, tags) {
         let joke = new Joke(id, content, tags); //new JS object
         Joke.all.push(joke);
-         return joke;
+        return joke;
     }
     
     static createFromForm(j) {
@@ -49,7 +49,6 @@ class Joke {
                 tag_ids.push(box.id);
                 tag_names.push(box.name);
             }});
-
         const strongParams = {
             joke: {
                 content: jokeContent().value,
@@ -81,7 +80,7 @@ class Joke {
         })
         .then(resp => resp.json()) //getting json out of our responce we got back
         .then(data => { //get our data from ^ responce
-            Joke.all = Joke.all.filter(joke => joke.id !== data.id);
+            Joke.all = Joke.all.filter(joke => joke.id !== data.id); //filter does not effect the og array, instead it returns a new array, return false so doesnt create new array
             Joke.displayJokes();
         })
     }
