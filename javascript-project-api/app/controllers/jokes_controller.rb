@@ -49,6 +49,6 @@ class JokesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def joke_params
-      params.require(:joke).permit( :content, :tag_ids => [] )
+      params.require(:joke).permit( :content, :tag_ids => [])
     end
 end

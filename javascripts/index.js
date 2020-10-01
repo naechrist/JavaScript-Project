@@ -1,17 +1,18 @@
-const jokeContent = () => document.querySelector('textarea#joke-content'); //these r node getters
+const jokeContent = () => document.querySelector('textarea#joke-content'); //these r node getters in the global scope
 // const tagContent = () => document.getElementById('tag-list');
 const jokeList = () => document.getElementById('joke-list');
 //const submitButton = () => document.getElementById('submit-joke');
 const button = document.querySelector('.container button');
 
+
 button.addEventListener('click', getJoke); //calling the function def
 
 function getJoke() {
-    const jokeText = document.querySelector('.container p');
+    const jokeText = document.querySelector('.container p'); // in the local scope
     fetch('https://icanhazdadjoke.com/', { //returns a promise to chain .then on
         headers: {
             'Accept': 'application/json'
-        }
+       }
     }).then(responce => responce.json()) //gets the object, runs bc fetch was successful
     .then(obj => jokeText.innerText = obj.joke); //adding to the html on the dom
 }
@@ -23,10 +24,11 @@ const baseUrl = 'http://localhost:3000'
 document.addEventListener("DOMContentLoaded", callOnLoad); //on page load 
 
 function callOnLoad() {
-    const form = () => document.querySelector('form'); 
+    const form = () => document.querySelector('form'); //arrow function 
     loadJokes();
     form().addEventListener('submit', Joke.createFromForm);
     dropdownMenu();
+   
 }
 
 function loadJokes() {
@@ -41,6 +43,7 @@ function loadJokes() {
         Joke.createJokes(data)
         Joke.displayJokes();
     })
+   
 }
 
 function resetInput() {
@@ -62,7 +65,7 @@ function dropdownMenu() {
              <label> 
                 <input type="checkbox" name="${tag.name}" id="${tag.id}" value="${tag.id}"> </input>---------------
                  <span id="${tag.id}">${tag.name}</span> </label>`
-            }); // use += to adding to instead of changing it completly 
+            }); // use += for -adding to- instead of -changing- it completly 
         });
     }
            

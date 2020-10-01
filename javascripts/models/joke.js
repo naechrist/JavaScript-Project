@@ -1,17 +1,19 @@
 // model class represents the data
 class Joke {
     static all = [];
-    // static editedJokeId = null;
 
     constructor(id, content, tags) {
         this.id = id;
         this.content = content; 
-        this.tags = tags
+        this.tags = tags;
     }
 
     display() {    // instance method
+        
         const div = document.createElement('div');
         const li = document.createElement('li');
+        const h6 = document.createElement('h6');
+
         
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('btn'); 
@@ -19,31 +21,33 @@ class Joke {
         deleteButton.id = this.id;
         
         deleteButton.addEventListener('click', Joke.deleteJoke) //delete 
-        
+
+        h6.innerText = this.tags.map(t => t.name);
+
         li.innerText = this.content;
- 
+        div.appendChild(h6);
         div.appendChild(li);
+        
         // div.appendChild(editButton); //actually adds button to page
         div.appendChild(deleteButton);
-        
         jokeList().appendChild(div);
-        
-        Joke.all.sort(function(arg1, arg2) { return arg1.content.length - arg2.content.length });
+        // debugger;
     }
 
     static createJokes(jokesData) {     //class method
         jokesData.forEach(data => Joke.create(data.id, data.content, data.tags));
     }
 
-    static create(id, content) {
-        let joke = new Joke(id, content);
+    static create(id, content, tags) {
+        let joke = new Joke(id, content, tags);
 
         Joke.all.push(joke);
-        return joke;
+         return joke;
+       
     }
     
     static createFromForm(j) {
-         j.preventDefault();
+        //  j.preventDefault(); //to prevent the page from reloading completly
         
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         const tag_ids = [];
@@ -52,7 +56,8 @@ class Joke {
             
         if (box.checked) {
             tag_ids.push(box.id);
-            tag_names.push(box.name);
+           tag_names.push(box.name);
+            // debugger;
         }});
     
         // if(editing) {
@@ -62,6 +67,7 @@ class Joke {
                 joke: {
                     content: jokeContent().value,
                     tag_ids: tag_ids
+                    
                 }
             }
             fetch(baseUrl + '/jokes.json', {
@@ -76,10 +82,11 @@ class Joke {
             .then(data => {
                 let joke = Joke.create(data.id, data.content, data.tags);
                 
-                jokeList().append(tag_names);
+                // jokeList().append();
                 joke.display();
                 
             })
+            
             resetInput();
         // }
     }  
@@ -100,8 +107,10 @@ class Joke {
 
     static displayJokes() {
         jokeList().innerHTML = '';
+        Joke.all.sort(function(a, b){return a.content.length-b.content.length});
         Joke.all.forEach(joke => joke.display())
     }
+    
 
     // static editJoke(e) {
     //     editing = true;
@@ -139,5 +148,4 @@ class Joke {
     //         submitButton().value = "Create Joke";
     //     })
     // }
-
 }
