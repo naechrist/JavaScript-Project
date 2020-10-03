@@ -1,9 +1,15 @@
 const jokeContent = () => document.querySelector('textarea#joke-content'); //these r node getters in the global scope
-const jokeList = () => document.getElementById('joke-list'); //from index.html
+const jokeList = () => document.getElementById('joke-list') //from index.html
 const button = document.querySelector('.container button');
 const searchedJokes = []
+
+// const searchedJokesArray = []
+const searchedJokesResult = []
+let parsedArray = []
+let obj = {}
 const searchBar = document.getElementById('search')
 button.addEventListener('click', getJoke); //calling the function defination
+
 
 function getJoke() {
     const jokeText = document.querySelector('.container p'); // in the local scope
@@ -18,6 +24,7 @@ function getJoke() {
 const baseUrl = 'http://localhost:3000'
 
 document.addEventListener("DOMContentLoaded", callOnLoad); //on page load 
+document.addEventListener("click", changeToGreen);
 
 function callOnLoad() {
     const form = () => document.querySelector('form'); //arrow function 
@@ -41,6 +48,11 @@ function loadJokes() {
     })
 }
 
+function changeToGreen() {
+    this.parentElement.querySelector('h6').style.color = 'green'
+    this.parentElement.querySelector('li').style.color = 'green'
+   }
+
 function resetInput() {
     jokeContent().value = "";
 }
@@ -63,29 +75,47 @@ function dropdownMenu() {
         }); // use += for -adding to- instead of -changing- it completly 
     });
 }
+
 function search_joke() { 
     searchBar.addEventListener("click", e => {
-        const searchString = (e.target.previousElementSibling.value);
+        const searchString = e.target.previousElementSibling.value;
         console.log(searchString);
-        
-        const filteredJokes = Joke.all.filter(joke => {
-            return (joke.content.includes(searchString))
-        }) 
-        var result = {  };
-        for (var i = 0; i < filteredJokes.length; i++) {
-            var item = filteredJokes[i];
-            for (var key in item) {
-                if (!(key in result))
-                result[key] = [];
-                result[key].push(item[key]);
+        let filterJokes = Joke.all.filter(joke => {
+            debugger;
+            let found = false;
+            for(let i = 0; i < joke.tags.length; i++) {
+                if (joke.tags[i].name.includes(searchString)) {
+                    found = true;
+                    
+                    return(joke.tags[i].name)
+                }
             }
+            return (joke.content.includes(searchString))
+            
+            // gets all jokes that include search word in the content
+        }); 
+        debugger;
+        filterJokes.forEach(joke => {
+            let searchedJokesArray = [] 
+            console.log(joke.content, joke.tags) 
+            searchedJokesArray.push(joke.content, joke.tags)
+            searchedJokes.push(searchedJokesArray);
+            
+        }) 
+        for (const element of searchedJokes) {
+            let newArray = []
+            newArray.push(element[0])
+            element[1].forEach(a=> newArray.push(a.name))
+            parsedArray.push(newArray)
         }
-    const div = document.createElement('div');
-    const h6 = document.createElement('h6');
-    h6.innerText = result.content.join("\n\n");
-    div.appendChild(h6)
-    const node = document.getElementById('joke-list');
-    node.textContent = '';
-    node.appendChild(div);
+        const div = document.createElement('div');
+        const h6 = document.createElement('h6');
+        h6.innerText = parsedArray.join('\n\n\n')
+        div.appendChild(h6)
+        const node = document.getElementById('joke-list');
+        node.textContent = '';
+        node.appendChild(div);
     })
 }
+
+

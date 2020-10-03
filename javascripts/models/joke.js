@@ -14,11 +14,17 @@ class Joke {
         const h6 = document.createElement('h6');
         
         const deleteButton = document.createElement('button'); //create button
+        const checkButton = document.createElement('button');
+        checkButton.classList.add('btn')
+        checkButton.innerText = '✓';
+        checkButton.id = this.id;
+
         deleteButton.classList.add('btn'); //b/c of materialize 
         deleteButton.innerText = 'delete';
         deleteButton.id = this.id; //delete/joke/ID (ex.1, 2, 3, ... )
-        
+        deleteButton.style.backgroundColor = 'red';
         deleteButton.addEventListener('click', Joke.deleteJoke) //the action once clicked
+        checkButton.addEventListener('click', changeToGreen);
 
         h6.innerText = this.tags.map(t => t.name); //gets names out of each object in array [{...}, {...}, {...}]
         li.innerText = this.content;
@@ -26,6 +32,7 @@ class Joke {
         div.appendChild(h6);
         div.appendChild(li);
         div.appendChild(deleteButton);
+        div.appendChild(checkButton);
         jokeList().appendChild(div); //div is a parentNode
     }
 
