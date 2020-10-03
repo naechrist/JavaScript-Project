@@ -22,9 +22,9 @@ class Joke {
         deleteButton.classList.add('btn'); //b/c of materialize 
         deleteButton.innerText = 'delete';
         deleteButton.id = this.id; //delete/joke/ID (ex.1, 2, 3, ... )
-        deleteButton.style.backgroundColor = 'red';
+        deleteButton.style.backgroundColor = '#FF6961';
         deleteButton.addEventListener('click', Joke.deleteJoke) //the action once clicked
-        checkButton.addEventListener('click', changeToGreen);
+        checkButton.addEventListener('click', Joke.changeToGreen);
 
         h6.innerText = this.tags.map(t => t.name); //gets names out of each object in array [{...}, {...}, {...}]
         li.innerText = this.content;
@@ -36,6 +36,12 @@ class Joke {
         jokeList().appendChild(div); //div is a parentNode
     }
 
+    static changeToGreen() {
+        this.parentElement.querySelector('h6').style.color = '#00FF00' 
+        this.parentElement.querySelector('li').style.color = '#00FF00'
+        
+    }
+    
     static createJokes(jokesData) {     //class method
         jokesData.forEach(data => Joke.create(data.id, data.content, data.tags)); 
     }
@@ -96,6 +102,26 @@ class Joke {
         jokeList().innerHTML = '';
         Joke.all.sort(function(a, b){return a.content.length-b.content.length});
         Joke.all.forEach(joke => joke.display())
+    }
+
+    static search_joke() { 
+        searchBar.addEventListener("click", e => {
+            const searchString = e.target.previousElementSibling.value; //what was typed in search box
+            let filterJokes = Joke.all.filter(joke => {
+                for(let i = 0; i < joke.tags.length; i++) { // joke.tags is an array of objects go through each one with the loop 
+                    if (joke.tags[i].name.includes(searchString)) { //if it includes what was typed in... 
+                        return(joke.tags[i].name) // ... return that joke into filteredJoke variable
+                    }
+                }
+                return(joke.content.includes(searchString)) // does the content contain what was typed in? true or false on each joke  
+            }); 
+            const node = document.getElementById('joke-list');
+            node.textContent = ''; //clear the list 
+            for (let i = 0; i < filterJokes.length; i++) {
+                filterJokes[i].display(); //display onlt the filteredJokes 
+            }
+            
+        })
     }
    
 }

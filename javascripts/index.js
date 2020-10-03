@@ -2,8 +2,7 @@ const jokeContent = () => document.querySelector('textarea#joke-content'); //the
 const jokeList = () => document.getElementById('joke-list') //from index.html
 const button = document.querySelector('.container button');
 const searchedJokes = []
-
-// const searchedJokesArray = []
+const div = document.createElement('div');
 const searchedJokesResult = []
 let parsedArray = []
 let obj = {}
@@ -24,13 +23,13 @@ function getJoke() {
 const baseUrl = 'http://localhost:3000'
 
 document.addEventListener("DOMContentLoaded", callOnLoad); //on page load 
-document.addEventListener("click", changeToGreen);
+
 
 function callOnLoad() {
     const form = () => document.querySelector('form'); //arrow function 
     loadJokes();
     form().addEventListener('submit', Joke.createFromForm);
-    search_joke();
+    Joke.search_joke();
     dropdownMenu();
 }
 
@@ -48,10 +47,7 @@ function loadJokes() {
     })
 }
 
-function changeToGreen() {
-    this.parentElement.querySelector('h6').style.color = 'green'
-    this.parentElement.querySelector('li').style.color = 'green'
-   }
+
 
 function resetInput() {
     jokeContent().value = "";
@@ -74,48 +70,6 @@ function dropdownMenu() {
                 <span id="${tag.id}">${tag.name} </span> </label>`
         }); // use += for -adding to- instead of -changing- it completly 
     });
-}
-
-function search_joke() { 
-    searchBar.addEventListener("click", e => {
-        const searchString = e.target.previousElementSibling.value;
-        console.log(searchString);
-        let filterJokes = Joke.all.filter(joke => {
-            debugger;
-            let found = false;
-            for(let i = 0; i < joke.tags.length; i++) {
-                if (joke.tags[i].name.includes(searchString)) {
-                    found = true;
-                    
-                    return(joke.tags[i].name)
-                }
-            }
-            return (joke.content.includes(searchString))
-            
-            // gets all jokes that include search word in the content
-        }); 
-        debugger;
-        filterJokes.forEach(joke => {
-            let searchedJokesArray = [] 
-            console.log(joke.content, joke.tags) 
-            searchedJokesArray.push(joke.content, joke.tags)
-            searchedJokes.push(searchedJokesArray);
-            
-        }) 
-        for (const element of searchedJokes) {
-            let newArray = []
-            newArray.push(element[0])
-            element[1].forEach(a=> newArray.push(a.name))
-            parsedArray.push(newArray)
-        }
-        const div = document.createElement('div');
-        const h6 = document.createElement('h6');
-        h6.innerText = parsedArray.join('\n\n\n')
-        div.appendChild(h6)
-        const node = document.getElementById('joke-list');
-        node.textContent = '';
-        node.appendChild(div);
-    })
 }
 
 
