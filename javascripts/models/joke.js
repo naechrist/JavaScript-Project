@@ -37,9 +37,18 @@ class Joke {
     }
 
     static changeToGreen() {
-        this.parentElement.querySelector('h6').style.color = '#00FF00' 
-        this.parentElement.querySelector('li').style.color = '#00FF00'
-        
+        const h6 = this.parentElement.querySelector('h6')
+        const li = this.parentElement.querySelector('li')
+        if (li.style.color === "black") {
+            li.style.color = "#00FF00"
+        } else {
+            li.style.color = "black"
+        }
+        if (h6.style.color === "black") {
+            h6.style.color = "#00FF00"
+        } else {
+            h6.style.color = "black"
+        }
     }
     
     static createJokes(jokesData) {     //class method
