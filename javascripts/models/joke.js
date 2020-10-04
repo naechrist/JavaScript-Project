@@ -8,7 +8,7 @@ class Joke {
         this.tags = tags;
     }
 
-     display() {    // instance method
+    display() {    // instance method
         const div = document.createElement('div');
         const li = document.createElement('li');
         const h6 = document.createElement('h6');
@@ -39,14 +39,11 @@ class Joke {
     static changeToGreen() {
         const h6 = this.parentElement.querySelector('h6')
         const li = this.parentElement.querySelector('li')
-        if (li.style.color === "black") {
+        if (li.style.color === "black" && h6.style.color === "black") {
             li.style.color = "#00FF00"
-        } else {
-            li.style.color = "black"
-        }
-        if (h6.style.color === "black") {
             h6.style.color = "#00FF00"
         } else {
+            li.style.color = "black"
             h6.style.color = "black"
         }
     }
@@ -61,8 +58,7 @@ class Joke {
         return joke;
     }
     
-    static createFromForm(j) {
-        //  j.preventDefault(); //to prevent the page from reloading completly
+    static createFromForm() {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         const tag_ids = [];
         const tag_names = []
@@ -127,10 +123,8 @@ class Joke {
             const node = document.getElementById('joke-list');
             node.textContent = ''; //clear the list 
             for (let i = 0; i < filterJokes.length; i++) {
-                filterJokes[i].display(); //display onlt the filteredJokes 
+                filterJokes[i].display(); //display only the filteredJokes 
             }
-            
         })
     }
-   
 }

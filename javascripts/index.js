@@ -1,14 +1,8 @@
 const jokeContent = () => document.querySelector('textarea#joke-content'); //these r node getters in the global scope
 const jokeList = () => document.getElementById('joke-list') //from index.html
 const button = document.querySelector('.container button');
-const searchedJokes = []
-const div = document.createElement('div');
-const searchedJokesResult = []
-let parsedArray = []
-let obj = {}
 const searchBar = document.getElementById('search')
 button.addEventListener('click', getJoke); //calling the function defination
-
 
 function getJoke() {
     const jokeText = document.querySelector('.container p'); // in the local scope
@@ -23,7 +17,6 @@ function getJoke() {
 const baseUrl = 'http://localhost:3000'
 
 document.addEventListener("DOMContentLoaded", callOnLoad); //on page load 
-
 
 function callOnLoad() {
     const form = () => document.querySelector('form'); //arrow function 
@@ -46,8 +39,6 @@ function loadJokes() {
         Joke.displayJokes();
     })
 }
-
-
 
 function resetInput() {
     jokeContent().value = "";
