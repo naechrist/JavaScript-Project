@@ -6,6 +6,7 @@ button.addEventListener('click', getJoke); //calling the function defination
 const jokeText = document.querySelector('.container p'); // in the local scope - p tag where the text will display
 const aButt = document.querySelectorAll('button')[1]
 
+let colors = ['#ff0000', '#00ff00', '#0000ff'];
 
 function getJoke() {
     // const jokeText = document.querySelector('.container p'); // in the local scope - p tag where the text will display
@@ -82,9 +83,7 @@ function dropdownMenu() {
         data.forEach(tag => { tagList.innerHTML += ` 
             <label>
             <input type="checkbox" name="${tag.name}" id="${tag.id}" value="${tag.id}"> </input>---------------
-                <span id="${tag.id}">${tag.name} </span> </label>`
+                <span style="color: orange" id="${tag.id}">${tag.name} </span> </label>`
         }); // use += for -adding to- instead of -changing- it completly 
     });
 }
-
-
