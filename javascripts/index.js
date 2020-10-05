@@ -44,7 +44,7 @@ function callOnLoad() {
 
 function loadJokes() {
     fetch(baseUrl + '/jokes') //connects to our rails api and gives us index of all data in an object / makes a GET request by default
-    .then(resp => { //responce from the server when ^ comes back / whats going to happen after the fetch request is done
+    .then(resp => { //responce from the server when ^ comes back
         if (resp.status !== 200) { //comes back w a responce - 200 is a-ok - this is also a promise that will b resolved with the next .then
             throw new Error(resp.statusText);
         }

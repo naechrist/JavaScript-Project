@@ -110,7 +110,7 @@ class Joke {
     }
 
     static search_joke() { 
-        searchBar.addEventListener("click", e => {
+        searchBar.addEventListener("click", e => { //click on search butt
             const searchString = e.target.previousElementSibling.value.toLowerCase(); //what was typed in search box
             let filterJokes = Joke.all.filter(joke => {
                 joke.tags.forEach(function (a) {
