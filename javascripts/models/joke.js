@@ -111,14 +111,21 @@ class Joke {
 
     static search_joke() { 
         searchBar.addEventListener("click", e => {
-            const searchString = e.target.previousElementSibling.value; //what was typed in search box
+            const searchString = e.target.previousElementSibling.value.toLowerCase(); //what was typed in search box
             let filterJokes = Joke.all.filter(joke => {
+                joke.tags.forEach(function (a) {
+                    ['name'].forEach(function (k) {
+                        if (typeof a[k] === 'string') {
+                            a[k] = a[k].toLowerCase();
+                        }
+                    });
+                });
                 for(let i = 0; i < joke.tags.length; i++) { // joke.tags is an array of objects go through each one with the loop 
                     if (joke.tags[i].name.includes(searchString)) { //if it includes what was typed in... 
                         return(joke.tags[i].name) // ... return that joke into filteredJoke variable
                     }
-                }
-                return(joke.content.includes(searchString)) // does the content contain what was typed in? true or false on each joke  
+                };
+                    return(joke.valueOf().content.toLocaleLowerCase().includes(searchString)); // does the content contain what was typed in? true or false on each joke     
             }); 
             const node = document.getElementById('joke-list');
             node.textContent = ''; //clear the list 
@@ -127,4 +134,5 @@ class Joke {
             }
         })
     }
+
 }
