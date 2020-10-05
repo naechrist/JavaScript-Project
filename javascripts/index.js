@@ -3,32 +3,24 @@ const jokeList = () => document.getElementById('joke-list') //from index.html
 const button = document.querySelector('.container button');
 const searchBar = document.getElementById('search')
 button.addEventListener('click', getJoke); //calling the function defination
-const jokeText = document.querySelector('.container p'); // in the local scope - p tag where the text will display
-const aButt = document.querySelectorAll('button')[1]
-
-let colors = ['#ff0000', '#00ff00', '#0000ff'];
+const jokeText = document.querySelector('.container p'); // p tag where the text will display
 
 function getJoke() {
-    // const jokeText = document.querySelector('.container p'); // in the local scope - p tag where the text will display
-    
-    // debugger;
     fetch('https://icanhazdadjoke.com/', { //a promise is returned when fetch is initiaized and resolves once the data is returned back - to chain .then on
         headers: {
             'Accept': 'application/json' //accepting as json
        }
     }).then(responce => responce.json()) //gets the object, runs bc fetch was successful, pulls json data out of the servers responce
     .then(obj => jokeText.innerText = obj.joke); //adding to the html into the jokeText node on the dom
-    
     addJokeButton();
 }
-function addJokeButton() {
-    const div = document.querySelector('.container')
-    const addJokeButton = document.createElement('button');
-    
-    addJokeButton.classList.add('butt');
-    addJokeButton.innerText = "Add Joke";
-    div.appendChild(addJokeButton)
 
+function addJokeButton() {
+    const div = document.querySelector('.container') // in the local scope
+    const addJokeButton = document.createElement('button'); //create button
+    addJokeButton.classList.add('butt'); //add class to that button
+    addJokeButton.innerText = "Add Joke";
+    div.appendChild(addJokeButton) 
     const but = document.querySelector('body > section > div > button.butt');
     but.addEventListener("click", addJokeToForm)
 }
@@ -36,7 +28,6 @@ function addJokeButton() {
 function addJokeToForm() {
     const joke = jokeText.innerText
     jokeContent().innerText = joke
-
 }
 
 const baseUrl = 'http://localhost:3000'
@@ -71,7 +62,6 @@ function resetInput() {
 
 function dropdownMenu() {
     let tagList = document.getElementById('tag-list');
-    
     fetch(baseUrl + '/tags' )
     .then(resp => {
         if (resp.status !== 200) {
