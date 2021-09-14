@@ -74,14 +74,14 @@ class Joke {
             }
         }
         fetch(baseUrl + '/jokes.json', {
-            method: "POST", //send to the backend 
-            headers: { //how we want to receive the responce
+            method: "POST", //send to the back-end 
+            headers: { //how we want to receive the response
                 "Accept": "application/json", //accept back json
                 "Content-Type": "application/json" //sending json
             }, 
-            body: JSON.stringify(strongParams) //how we r going to send of the json obj -> into string - do this everytime u POST
-        }) //JSON allows us to communicate to and from the rails backened 
-        .then(resp => resp.json()) //send back responce as an object and getting json out of it
+            body: JSON.stringify(strongParams) //how we r going to send of the json obj -> into string - do this every time u POST
+        }) //JSON allows us to communicate to and from the rails back-end 
+        .then(resp => resp.json()) //send back response as an object and getting json out of it
         .then(data => { 
             let joke = Joke.create(data.id, data.content, data.tags);
             joke.display();
@@ -91,14 +91,14 @@ class Joke {
 
     static deleteJoke(d) {
         this.id //id of joke
-        this.parentNode //div for removing from front end - parentNode is the entire div tha contains everything to that specific joke
+        this.parentNode //div for removing from front-end - parentNode is the entire div that contains everything to that specific joke
 
         fetch(baseUrl + '/jokes/' + this.id, { 
             method: "DELETE" //change from GET(default) to DELETE
         })
-        .then(resp => resp.json()) //getting json out of our responce we got back
-        .then(data => { //get our data from ^ responce
-            Joke.all = Joke.all.filter(joke => joke.id !== data.id); //filter does not effect the og array, instead it returns a new array, return false so doesnt create new array
+        .then(resp => resp.json()) //getting json out of our response we got back
+        .then(data => { //get our data from ^ response
+            Joke.all = Joke.all.filter(joke => joke.id !== data.id); //filter does not effect the og array, instead it returns a new array, return false so doesn't create new array
             Joke.displayJokes();
         })
     }
